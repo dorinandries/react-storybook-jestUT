@@ -20,11 +20,13 @@ const CardDetails = ({
 }: CardDetailsProps) => {
   return (
     <CardDetailsStatus $space_between={$space_between}>
-      <strong>
-        {title} {separator || null}
-      </strong>
-      {prop1 !== undefined && <>{prop1}</>}
-      {prop2 !== undefined && <>{prop2}</>}
+      <h4>
+        <strong>
+          {title} {separator || null}
+        </strong>
+      </h4>
+      <div>{prop1 !== undefined && <>{prop1}</>}</div>
+      <div>{prop2 !== undefined && <>{prop2}</>}</div>
     </CardDetailsStatus>
   );
 };

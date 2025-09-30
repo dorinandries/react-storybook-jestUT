@@ -17,6 +17,7 @@ import { TwoRows } from "../../../styles";
 export interface TimelineItemProps extends Stage {
   isFirstElement?: boolean;
   isLastElement?: boolean;
+  "data-testid"?: string;
 };
 
 export default function TimelineItem({
@@ -28,13 +29,15 @@ export default function TimelineItem({
   status = TimelineStatusEnum.Neutral,
   isFirstElement = false,
   isLastElement = false,
+  ...props
 }: TimelineItemProps) {
 
   const [open, setOpen] = useState(false);
   const hasExtra = Boolean(extraDescription);
+  const { ["data-testid"]: testId } = props;
 
   return (
-    <Item>
+    <Item data-testid={testId}>
       <Indicator status={status} isFirstElement={isFirstElement} isLastElement={isLastElement} />
       <TimelineDataContainerStyled
         $data-highlighted={

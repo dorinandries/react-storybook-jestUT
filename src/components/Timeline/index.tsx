@@ -4,7 +4,8 @@ import { Stage } from "../../types";
 import TimelineItem, { TimelineItemProps } from "./TimelineItem";
 import { TimelineContainer } from "./styles";
 
-export default function Timeline({ stages }: { stages: Stage[] }) {
+export default function Timeline({ stages, ...props }: { stages: Stage[], "data-testid"?: string }) {
+  const { ["data-testid"]: testId } = props;
   // Ensure first & last flags and at least first is green (created)
   const normalized = useMemo(() => {
     if (!stages.length) return stages;
@@ -12,16 +13,20 @@ export default function Timeline({ stages }: { stages: Stage[] }) {
     copy[0].isFirstElement = true;
     copy[0].status = copy[0].status || "success";
     // if (copy.length > 1) {
-      copy[copy.length - 1].isLastElement = true;
+    copy[copy.length - 1].isLastElement = true;
     // }
     return copy;
   }, [stages]);
 
   console.log("Normalized Stages:", normalized);
   return (
-    <TimelineContainer>
+    <TimelineContainer data-testid={testId}>
       {normalized.map((s, i) => (
-        <TimelineItem key={`${s.title}-${i}`} {...s} data-testid={`timeline-item-${i}`} />
+        <TimelineItem
+          key={`${s.title}-${i}`}
+          {...s}
+          data-testid={`timeline-item-${i}`}
+        />
       ))}
     </TimelineContainer>
   );

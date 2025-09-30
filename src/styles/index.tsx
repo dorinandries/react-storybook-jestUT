@@ -85,7 +85,7 @@ export const Led = styled.span<{ $orderStatus: string }>`
  *************************/
 
 export const DetailsWrap = styled.div`
-  margin-top: 16px;
+  margin-top: 40px;
   padding: 16px;
   border-radius: 12px;
   background: #fff;

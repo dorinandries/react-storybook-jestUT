@@ -58,9 +58,9 @@ export default function OrderDetails({
   const canAct = stagesCount >= 1 && stagesCount <= 4 && isTerminal;
 
   return (
-    <DetailsWrap>
+    <DetailsWrap data-testid={`order-details`}>
       <DetailsHeader>
-        <h3 style={{ margin: 0 }}>Order #{order.idOrder}</h3>
+        <h3>Order #{order.idOrder}</h3>
 
         <OrderStatusActions
           canCancel={canAct}
@@ -91,7 +91,7 @@ export default function OrderDetails({
               Status timeline
             </StyledBox>
 
-            <Timeline stages={order.stages} />
+            <Timeline stages={order.stages} data-testid="order-timeline" />
           </TwoRows>
         </TwoRows>
 

@@ -1,6 +1,6 @@
 // MyComponent.test.tsx
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import OrderCard from "./index";
 import { OrderStatusEnum, TimelineStatusEnum } from "../../types";
 
@@ -26,33 +26,39 @@ const MOCK_ORDER = {
 };
 
 describe("OrderCard", () => {
+  it("renders without crashing", () => {
+    const onOpenMock = jest.fn();
+    render(<OrderCard order={MOCK_ORDER} onOpen={onOpenMock} />);
+  });
+
+  it("rendered order have a title with order id", () => {
+    const onOpenMock = jest.fn();
+    render(<OrderCard order={MOCK_ORDER} onOpen={onOpenMock} />);
+
+    const container = screen.getByTestId("order");
+    expect(within(container).getByText(`Order #${MOCK_ORDER.idOrder}`)).toBeInTheDocument();
+  });
+
   it("renders the div with data-testid", () => {
     const onOpenMock = jest.fn();
-    render(
-      <OrderCard
-        order={MOCK_ORDER}
-        onOpen={onOpenMock}
-      />
-    );
+    render(<OrderCard order={MOCK_ORDER} onOpen={onOpenMock} />);
 
     const divElement = screen.getByTestId(`order-card-${MOCK_ORDER.idOrder}`);
 
     expect(divElement).toBeInTheDocument();
     expect(divElement).toHaveTextContent(`Order #${MOCK_ORDER.idOrder}`);
-  
   });
 
-   it("renders the div and triggers onOpen when clicked", () => {
-     const onOpenMock = jest.fn();
-     render(<OrderCard order={MOCK_ORDER} onOpen={onOpenMock} />);
+  it("renders the div and triggers onOpen when clicked", () => {
+    const onOpenMock = jest.fn();
+    render(<OrderCard order={MOCK_ORDER} onOpen={onOpenMock} />);
 
-     const divElement = screen.getByTestId(`order-card-${MOCK_ORDER.idOrder}`);
+    const divElement = screen.getByTestId(`order-card-${MOCK_ORDER.idOrder}`);
 
-     expect(divElement).toBeInTheDocument();
+    expect(divElement).toBeInTheDocument();
 
-     fireEvent.click(divElement);
+    fireEvent.click(divElement);
 
-     expect(onOpenMock).toHaveBeenCalledTimes(1);
-
-   });
+    expect(onOpenMock).toHaveBeenCalledTimes(1);
+  });
 });
