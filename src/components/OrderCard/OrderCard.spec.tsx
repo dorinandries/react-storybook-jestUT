@@ -1,4 +1,4 @@
-// MyComponent.test.tsx
+// src/components/OrderCard/OrderCard.spec.tsx
 import React from "react";
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import OrderCard from "./index";
@@ -35,7 +35,7 @@ describe("OrderCard", () => {
     const onOpenMock = jest.fn();
     render(<OrderCard order={MOCK_ORDER} onOpen={onOpenMock} />);
 
-    const container = screen.getByTestId("order");
+    const container = screen.getByTestId("order-card-title");
     expect(within(container).getByText(`Order #${MOCK_ORDER.idOrder}`)).toBeInTheDocument();
   });
 

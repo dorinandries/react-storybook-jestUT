@@ -15,6 +15,7 @@ export const getOrders = async () => {
 
         // Return mock data for now
         return mockOrders;
+        // return [];
     } catch (error) {
         console.error('Error fetching orders:', error);
         throw error;

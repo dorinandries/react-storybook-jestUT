@@ -6,14 +6,16 @@ import Orders from "./Orders";
 
 import { getOrders } from "../api/getOrders";
 import { mockOrders } from "../mock/mockOrders";
-import { OrderStatusEnum, TimelineStatusEnum } from "../types";
+import { OrderStatusEnum, TimelineStatusEnum, Order } from "../types";
 
 jest.mock("../api/getOrders", () => ({
   __esModule: true,
   getOrders: jest.fn(), // named export
 }));
 
-const mockedGetOrders = getOrders as jest.MockedFunction<typeof getOrders>;
+const mockedGetOrders = getOrders as unknown as jest.MockedFunction<
+  () => Promise<Order[]>
+>;
 
 mockedGetOrders.mockResolvedValue([
   ...mockOrders,
@@ -36,7 +38,7 @@ mockedGetOrders.mockResolvedValue([
       },
     ],
     orderStatus: OrderStatusEnum.Preparing,
-  },
+  } as Order,
 ]);
 
 describe("Orders Component", () => {
@@ -83,11 +85,10 @@ describe("Orders Component", () => {
     expect(items[0]).toBeInTheDocument();
   });
 
-  it("no order cards displayed", async() => {
+  it("no order cards displayed", async () => {
     mockedGetOrders.mockResolvedValueOnce([]); // override for this test
     render(<Orders />);
     expect(await screen.findByText(/no orders available/i)).toBeInTheDocument();
-    expect(screen.queryByTestId(/order-card/i)).not.toBeInTheDocument();  
-  })
-
+    expect(screen.queryByTestId(/order-card/i)).not.toBeInTheDocument();
+  });
 });

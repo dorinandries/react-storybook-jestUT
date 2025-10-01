@@ -1,8 +1,8 @@
 // src/components/OrderDetails/StageForm/style.tsx
 
 import styled from "styled-components";
-import { TimelineStatusEnum } from "../../../types";
-import { getColorByKey } from "../../../styles";
+import { TimelineStatusEnum } from "../../types";
+import { getColorByKey } from "../../styles";
 
 export const StageFormContainer = styled.div`
   display: flex;
@@ -10,11 +10,11 @@ export const StageFormContainer = styled.div`
   justify-content: center;
   position: fixed;
   top: 0;
-  left: 0;
+  left: -200px;
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.3);
-  z-index: 1000;
+  z-index: 999;
 `;
 
 export const StageFormContent = styled.div`

@@ -1,5 +1,5 @@
 // src/components/OrderDetails/StageForm/index.tsx
-import { TimelineStatusEnum } from "../../../types";
+import { TimelineStatusEnum } from "../../types";
 import { StageFormContainer, StageFormContent } from "./styles";
 
 export const StageForm = ({

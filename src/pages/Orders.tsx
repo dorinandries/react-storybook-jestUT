@@ -113,7 +113,8 @@ function Orders() {
   };
 
   const handleSaveStage = () => {
-    if (!selectedOrder) return;
+    console.log("Saving new stage", stageForm);
+    if (!selectedOrder || !stageForm) return;
     const { date, time } = nowStageDateTime();
     const newStage = {
       title: stageForm.title,

@@ -11,11 +11,12 @@ import {
   UserCard,
 } from "../../styles";
 import OrderStatusActions from "../OrderStatusActions";
-import { StageForm } from "./StageForm";
+import { StageForm } from "../StageForm";
 import { Subtle } from "../OrderCard/styles";
 import CardDetails from "../OrderCard/CardDetails";
 import { Item } from "../Timeline/TimelineItem/styles";
 import { TimelineContainer } from "../Timeline/styles";
+import InputModal from "../InputModal";
 
 export default function OrderDetails({
   order,
@@ -57,6 +58,45 @@ export default function OrderDetails({
   const isTerminal = order.orderStatus === OrderStatusEnum.Preparing;
   const canAct = stagesCount >= 1 && stagesCount <= 4 && isTerminal;
 
+  const formFieldsStages = [
+    {
+      type: "text" as const,
+      label: "Title",
+      value: stageForm.title,
+      name: "title",
+      required: true,
+      placeholder: "Title",
+    },
+    {
+      type: "textarea" as const,
+      label: "Description",
+      value: stageForm.description,
+      name: "description",
+      required: true,
+      placeholder: "Enter your description",
+    },
+    {
+      type: "textarea" as const,
+      label: "Extra Description (optional)",
+      value: stageForm.extraDescription,
+      name: "extraDescription",
+      required: false,
+      placeholder: "Enter extra description",
+    },
+    {
+      type: "select" as const,
+      label: "Status",
+      value: stageForm.status,
+      options: [
+        { label: "Pending", value: TimelineStatusEnum.Pending },
+        { label: "Info", value: TimelineStatusEnum.Info },
+        { label: "Completed", value: TimelineStatusEnum.Completed },
+        { label: "Error", value: TimelineStatusEnum.Error },
+      ],
+      name: "status",
+      required: true,
+    },
+  ];
   return (
     <DetailsWrap data-testid={`order-details`}>
       <DetailsHeader>
@@ -109,12 +149,37 @@ export default function OrderDetails({
           </TwoRows>
         </TimelineContainer>
       </TwoCol>
-      <StageForm
+      {/* <StageForm
         showAddStage={showAddStage}
         onCloseStageForm={onCloseStageForm}
         onSaveStageForm={onSaveStageForm}
         stageForm={stageForm}
         setStageForm={setStageForm}
+      /> */}
+
+      <InputModal
+        isOpen={showAddStage}
+        title="Add new stage"
+        primaryLabel="Save"
+        secondaryLabel="Cancel"
+        onClose={onCloseStageForm}
+        onSave={onSaveStageForm}
+        fields={formFieldsStages}
+        values={stageForm}
+        onChange={(name, value) => {
+          // Ensure enum typing for select:
+          if (name === "status") {
+            setStageForm((prev) => ({
+              ...prev,
+              status: value as TimelineStatusEnum,
+            }));
+          } else {
+            setStageForm((prev) => ({
+              ...prev,
+              [name]: value as string,
+            }));
+          }
+        }}
       />
     </DetailsWrap>
   );
