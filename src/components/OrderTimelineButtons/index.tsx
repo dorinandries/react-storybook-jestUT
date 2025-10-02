@@ -1,4 +1,4 @@
-// src/components/OrderStatusActions/index.tsx
+// src/components/OrderTimelineButtons/index.tsx
 import {
   ContainerButtons,
   DangerButton,
@@ -6,7 +6,7 @@ import {
   SuccessButton,
 } from "./styles";
 
-export default function OrderStatusActions({
+export default function OrderTimelineButtons({
   canCancel,
   canComplete,
   canAddStageForm,
@@ -24,15 +24,15 @@ export default function OrderStatusActions({
   if (!canCancel && !canComplete && !canAddStageForm) return null;
 
   return (
-    <ContainerButtons>
+    <ContainerButtons data-testid="order-timeline-buttons">
       {canCancel && (
-        <DangerButton onClick={onCancel}>Cancel order</DangerButton>
+        <DangerButton onClick={onCancel} data-testid="button-cancel">Cancel order</DangerButton>
       )}
       {canComplete && (
-        <SuccessButton onClick={onComplete}>Mark as completed</SuccessButton>
+        <SuccessButton onClick={onComplete} data-testid="button-complete">Mark as completed</SuccessButton>
       )}
       {canAddStageForm && (
-        <InfoButton onClick={onAddStageForm}>Add stage</InfoButton>
+        <InfoButton onClick={onAddStageForm} data-testid="button-add-stage">Add stage</InfoButton>
       )}
     </ContainerButtons>
   );

@@ -10,7 +10,7 @@ import {
   TwoRows,
   UserCard,
 } from "../../styles";
-import OrderStatusActions from "../OrderStatusActions";
+import OrderTimelineButtons from "../OrderTimelineButtons";
 import { StageForm } from "../StageForm";
 import { Subtle } from "../OrderCard/styles";
 import CardDetails from "../OrderCard/CardDetails";
@@ -102,7 +102,7 @@ export default function OrderDetails({
       <DetailsHeader>
         <h3>Order #{order.idOrder}</h3>
 
-        <OrderStatusActions
+        <OrderTimelineButtons
           canCancel={canAct}
           canComplete={canAct}
           canAddStageForm={canAct}

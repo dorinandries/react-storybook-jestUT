@@ -20,7 +20,6 @@ const mockFields: FieldProps[] = [
   },
   {
     type: "textarea",
-
     label: "Description",
     value: "",
     name: "description",
@@ -84,9 +83,14 @@ describe("InputModal", () => {
     expect(screen.getByText("Save")).toBeInTheDocument();
     expect(screen.getByText("Cancel")).toBeInTheDocument();
     expect(screen.getByLabelText("Title*")).toBeInTheDocument();
+    expect(screen.getByTestId("input-title")).toBeInTheDocument();
     expect(screen.getByLabelText("Description*")).toBeInTheDocument();
+    expect(screen.getByTestId("textarea-description")).toBeInTheDocument();
     expect(screen.getByLabelText("Extra Description")).toBeInTheDocument();
+    expect(screen.getByTestId("textarea-extraDescription")).toBeInTheDocument();
     expect(screen.getByLabelText("Status*")).toBeInTheDocument();
+    expect(screen.getByTestId("select-status")).toBeInTheDocument();
+
   });
 
   it("does not render when closed", () => {
