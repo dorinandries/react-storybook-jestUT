@@ -1,6 +1,6 @@
 // src/components/OrderDetails/index.tsx
 import { Order, OrderStatusEnum, TimelineStatusEnum } from "../../types";
-import { formatDateTime } from "../../utilities";
+import { formatDateTime, nowStageDateTime } from "../../utilities";
 import Timeline from "../Timeline";
 import {
   DetailsHeader,
@@ -17,52 +17,30 @@ import CardDetails from "../OrderCard/CardDetails";
 import { Item } from "../Timeline/TimelineItem/styles";
 import { TimelineContainer } from "../Timeline/styles";
 import InputModal from "../InputModal";
+import { useState } from "react";
 
 export default function OrderDetails({
-  order,
+  selectedOrder,
+  setOrders,
   onCancel,
   onComplete,
-  showAddStage,
-  onAddStageForm,
-  onCloseStageForm,
-  onSaveStageForm,
-  stageForm,
-  setStageForm,
 }: {
-  order: Order;
-  showAddStage: boolean;
+  selectedOrder: Order;
+  setOrders: React.Dispatch<React.SetStateAction<Order[]>>;
   onCancel: (id: string) => void;
   onComplete: (id: string) => void;
-  onAddStageForm: (id: string) => void;
-  onCloseStageForm: () => void;
-  onSaveStageForm: () => void;
-  stageForm: {
-    title: string;
-    description: string;
-    extraDescription: string;
-    status: TimelineStatusEnum;
-  };
-  setStageForm: React.Dispatch<
-    React.SetStateAction<{
-      title: string;
-      description: string;
-      extraDescription: string;
-      status: TimelineStatusEnum;
-    }>
-  >;
 }) {
-  const latest = order.stages[order.stages.length - 1];
-  const created = formatDateTime(order.createdAt);
+  const latest = selectedOrder.stages[selectedOrder.stages.length - 1];
+  const created = formatDateTime(selectedOrder.createdAt);
 
-  const stagesCount = order.stages.length;
-  const isTerminal = order.orderStatus === OrderStatusEnum.Preparing;
+  const stagesCount = selectedOrder.stages.length;
+  const isTerminal = selectedOrder.orderStatus === OrderStatusEnum.Preparing;
   const canAct = stagesCount >= 1 && stagesCount <= 4 && isTerminal;
 
   const formFieldsStages = [
     {
       type: "text" as const,
       label: "Title",
-      value: stageForm.title,
       name: "title",
       required: true,
       placeholder: "Title",
@@ -70,7 +48,6 @@ export default function OrderDetails({
     {
       type: "textarea" as const,
       label: "Description",
-      value: stageForm.description,
       name: "description",
       required: true,
       placeholder: "Enter your description",
@@ -78,7 +55,6 @@ export default function OrderDetails({
     {
       type: "textarea" as const,
       label: "Extra Description (optional)",
-      value: stageForm.extraDescription,
       name: "extraDescription",
       required: false,
       placeholder: "Enter extra description",
@@ -86,7 +62,6 @@ export default function OrderDetails({
     {
       type: "select" as const,
       label: "Status",
-      value: stageForm.status,
       options: [
         { label: "Pending", value: TimelineStatusEnum.Pending },
         { label: "Info", value: TimelineStatusEnum.Info },
@@ -97,18 +72,102 @@ export default function OrderDetails({
       required: true,
     },
   ];
+
+  const [showAddStage, setShowAddStage] = useState(false);
+
+  // Add stage popup state
+  const [stageForm, setStageForm] = useState({
+    id: undefined as number | undefined,
+    title: "",
+    description: "",
+    extraDescription: "",
+    status: TimelineStatusEnum.Pending,
+  });
+
+  // Helper to get current date/time in project format
+  /**
+   * this method displays the modal and resets the inputs values
+   */
+  const handleAddStageButton = () => {
+    setShowAddStage(true);
+    setStageForm({
+      id: undefined,
+      title: "",
+      description: "",
+      extraDescription: "",
+      status: TimelineStatusEnum.Pending,
+    });
+  };
+
+  const handleEditStageButton = (id: number) => {
+    setShowAddStage(true);
+    const stage = selectedOrder.stages[id];
+    setStageForm({
+      id: id,
+      title: stage.title ?? "",
+      description: stage.description ?? "",
+      extraDescription:
+        typeof stage.extraDescription === "string"
+          ? stage.extraDescription
+          : "",
+      status: stage.status ?? TimelineStatusEnum.Pending,
+    });
+  };
+
+  const handleCloseStage = () => {
+    setShowAddStage(false);
+  };
+
+  const handleSaveStage = (data: any) => {
+    const { title, description, extraDescription, status, id } = data;
+    if (!id) {
+      const { date, time } = nowStageDateTime();
+      const newStage = {
+        title: title,
+        description: description,
+        date,
+        time,
+        extraDescription: extraDescription,
+        status: status,
+        id: selectedOrder.stages.length + 1,
+      };
+      setOrders((prev) =>
+        prev.map((o) =>
+          o.idOrder === selectedOrder.idOrder
+            ? { ...o, stages: [...o.stages, newStage] }
+            : o
+        )
+      );
+    } else {
+      alert("Updating existing stage " + id);
+      setOrders((prev) =>
+        prev.map((o) =>
+          o.idOrder === selectedOrder.idOrder
+            ? {
+                ...o,
+                stages: o.stages.map((s, idx) =>
+                  idx === id ? { ...s, title, description, extraDescription, status } : s
+                ),
+              }
+            : o
+        )
+      );
+    }
+    setShowAddStage(false);
+  };
+
   return (
     <DetailsWrap data-testid={`order-details`}>
       <DetailsHeader>
-        <h3>Order #{order.idOrder}</h3>
+        <h3>Order #{selectedOrder.idOrder}</h3>
 
         <OrderTimelineButtons
           canCancel={canAct}
           canComplete={canAct}
           canAddStageForm={canAct}
-          onCancel={() => onCancel(order.idOrder)}
-          onComplete={() => onComplete(order.idOrder)}
-          onAddStageForm={() => onAddStageForm(order.idOrder)}
+          onCancel={() => onCancel(selectedOrder.idOrder)}
+          onComplete={() => onComplete(selectedOrder.idOrder)}
+          onAddStageForm={handleAddStageButton}
         />
       </DetailsHeader>
 
@@ -131,7 +190,11 @@ export default function OrderDetails({
               Status timeline
             </StyledBox>
 
-            <Timeline stages={order.stages} data-testid="order-timeline" />
+            <Timeline
+              stages={selectedOrder.stages}
+              data-testid="order-timeline"
+              handleEditStageButton={handleEditStageButton}
+            />
           </TwoRows>
         </TwoRows>
 
@@ -140,11 +203,11 @@ export default function OrderDetails({
             <StyledBox $status={OrderStatusEnum.Completed}>Customer</StyledBox>
             <UserCard>
               <Subtle>
-                <strong>{order.user.name}</strong>
+                <strong>{selectedOrder.user.name}</strong>
               </Subtle>
-              <Subtle>{order.user.email}</Subtle>
-              <Subtle>{order.user.address}</Subtle>
-              <Subtle>{order.user.phone}</Subtle>
+              <Subtle>{selectedOrder.user.email}</Subtle>
+              <Subtle>{selectedOrder.user.address}</Subtle>
+              <Subtle>{selectedOrder.user.phone}</Subtle>
             </UserCard>
           </TwoRows>
         </TimelineContainer>
@@ -162,24 +225,11 @@ export default function OrderDetails({
         title="Add new stage"
         primaryLabel="Save"
         secondaryLabel="Cancel"
-        onClose={onCloseStageForm}
-        onSave={onSaveStageForm}
+        onClose={handleCloseStage}
+        onSave={handleSaveStage}
+        additionalFieldsForData={typeof stageForm.id === "number" ? { id: stageForm.id } : undefined}
         fields={formFieldsStages}
         values={stageForm}
-        onChange={(name, value) => {
-          // Ensure enum typing for select:
-          if (name === "status") {
-            setStageForm((prev) => ({
-              ...prev,
-              status: value as TimelineStatusEnum,
-            }));
-          } else {
-            setStageForm((prev) => ({
-              ...prev,
-              [name]: value as string,
-            }));
-          }
-        }}
       />
     </DetailsWrap>
   );

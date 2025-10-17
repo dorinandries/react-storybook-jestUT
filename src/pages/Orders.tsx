@@ -87,52 +87,6 @@ function Orders() {
   const completeOrder = (id: string) =>
     appendTerminalStage(id, OrderStatusEnum.Completed);
 
-  // Add stage popup state
-  const [showAddStage, setShowAddStage] = useState(false);
-  const [stageForm, setStageForm] = useState({
-    title: "",
-    description: "",
-    extraDescription: "",
-    status: TimelineStatusEnum.Pending,
-  });
-
-  // Helper to get current date/time in project format
-
-  const handleAddStage = () => {
-    setShowAddStage(true);
-    setStageForm({
-      title: "",
-      description: "",
-      extraDescription: "",
-      status: TimelineStatusEnum.Pending,
-    });
-  };
-
-  const handleCloseStage = () => {
-    setShowAddStage(false);
-  };
-
-  const handleSaveStage = () => {
-    console.log("Saving new stage", stageForm);
-    if (!selectedOrder || !stageForm) return;
-    const { date, time } = nowStageDateTime();
-    const newStage = {
-      title: stageForm.title,
-      description: stageForm.description,
-      date,
-      time,
-      extraDescription: stageForm.extraDescription,
-      status: stageForm.status,
-    };
-    setOrders((prev) =>
-      prev.map((o) =>
-        o.idOrder === selectedOrder.idOrder
-          ? { ...o, stages: [...o.stages, newStage] }
-          : o
-      )
-    );
-    setShowAddStage(false);
-  };
 
   return (
     <Page>
@@ -160,15 +114,10 @@ function Orders() {
         {/* Details section below the grid */}
         {selectedOrder && (
           <OrderDetails
-            order={selectedOrder}
+            selectedOrder={selectedOrder}
+            setOrders={setOrders}
             onCancel={cancelOrder}
             onComplete={completeOrder}
-            showAddStage={showAddStage}
-            onAddStageForm={handleAddStage}
-            onCloseStageForm={handleCloseStage}
-            onSaveStageForm={handleSaveStage}
-            stageForm={stageForm}
-            setStageForm={setStageForm}
           />
         )}
       </section>

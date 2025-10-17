@@ -13,11 +13,13 @@ import {
 } from "./styles";
 import { Indicator } from "./Indicator";
 import { TwoRows } from "../../../styles";
+import { InfoButton } from "../../OrderTimelineButtons/styles";
 
 export interface TimelineItemProps extends Stage {
   isFirstElement?: boolean;
   isLastElement?: boolean;
   "data-testid"?: string;
+  onEditStage: () => void;
 };
 
 export default function TimelineItem({
@@ -29,6 +31,7 @@ export default function TimelineItem({
   status = TimelineStatusEnum.Neutral,
   isFirstElement = false,
   isLastElement = false,
+  onEditStage = () => {},
   ...props
 }: TimelineItemProps) {
 
@@ -47,12 +50,15 @@ export default function TimelineItem({
       >
         <TimelineContentStyled>
           <TwoRows>
-            <Title>{title}</Title>
-            <Desc>{description}</Desc>
+            <Title data-testid="timeline-item-title">{title}</Title>
+            <Desc data-testid="timeline-item-description">{description}</Desc>
           </TwoRows>
           <MetaRight>
-            <Desc>{date}</Desc>
-            <Desc>{time}</Desc>
+            <Desc data-testid="timeline-item-date">{date}</Desc>
+            <Desc data-testid="timeline-item-time">{time}</Desc>
+          </MetaRight>
+          <MetaRight>
+             <InfoButton onClick={onEditStage} data-testid="button-edit-stage">Edit</InfoButton>
           </MetaRight>
         </TimelineContentStyled>
 

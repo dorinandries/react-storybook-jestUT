@@ -7,7 +7,6 @@ import { FieldProps } from "./types";
 
 const mockOnClose = jest.fn();
 const mockOnSave = jest.fn();
-const mockOnChange = jest.fn();
 
 const mockFields: FieldProps[] = [
   {
@@ -49,36 +48,50 @@ const mockFields: FieldProps[] = [
   },
 ];
 
-function TestHost({ isOpen = false }: { isOpen?: boolean }) {
-  const [values, setValues] = useState<Record<string, unknown>>({
-    title: "",
-    description: "",
-    extraDescription: "",
-    status: "",
-  });
-  return (
-    <InputModal
-      isOpen={isOpen}
-      title="Add new stage"
-      primaryLabel="Save"
-      secondaryLabel="Cancel"
-      fields={mockFields}
-      values={values}
-      onChange={(name, value) => {
-        mockOnChange(name, value);
-        setValues((prev) => ({ ...prev, [name as string]: value }));
-      }}
-      onClose={mockOnClose}
-      onSave={mockOnSave}
-    />
-  );
-}
 describe("InputModal", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+  it("renders correctly with initial values", () => {
+    render(
+      <InputModal
+        isOpen={true}
+        title="Add new stage"
+        primaryLabel="Save"
+        secondaryLabel="Cancel"
+        fields={mockFields}
+        values={{
+          title: "Test Title",
+          description: "Test Description",
+          extraDescription: "",
+          status: TimelineStatusEnum.Info,
+        }}
+        onClose={mockOnClose}
+        onSave={mockOnSave}
+      />
+    );
+    const titleInput = screen.getByTestId("input-title");
+    const descriptionInput = screen.getByTestId("textarea-description");
+    const statusSelect = screen.getByTestId("select-status");
+
+    expect(titleInput).toHaveValue("Test Title");
+    expect(descriptionInput).toHaveValue("Test Description");
+    expect(statusSelect).toHaveValue(TimelineStatusEnum.Info);
+  });
+
   it("renders correctly when open", () => {
-    render(<TestHost isOpen />);
+    render(
+      <InputModal
+        isOpen={true}
+        title="Add new stage"
+        primaryLabel="Save"
+        secondaryLabel="Cancel"
+        fields={mockFields}
+        values={{}}
+        onClose={mockOnClose}
+        onSave={mockOnSave}
+      />
+    );
     expect(screen.getByText("Add new stage")).toBeInTheDocument();
     expect(screen.getByText("Save")).toBeInTheDocument();
     expect(screen.getByText("Cancel")).toBeInTheDocument();
@@ -90,57 +103,95 @@ describe("InputModal", () => {
     expect(screen.getByTestId("textarea-extraDescription")).toBeInTheDocument();
     expect(screen.getByLabelText("Status*")).toBeInTheDocument();
     expect(screen.getByTestId("select-status")).toBeInTheDocument();
-
   });
 
   it("does not render when closed", () => {
-    render(<TestHost />);
+    render(
+      <InputModal
+        isOpen={false}
+        title="Add new stage"
+        primaryLabel="Save"
+        secondaryLabel="Cancel"
+        fields={mockFields}
+        values={{}}
+        onClose={mockOnClose}
+        onSave={mockOnSave}
+      />
+    );
     expect(screen.queryByText("Add new stage")).not.toBeInTheDocument();
   });
   it("calls onClose when Cancel button is clicked", async () => {
-    render(<TestHost isOpen />);
+    render(
+      <InputModal
+        isOpen={true}
+        title="Add new stage"
+        primaryLabel="Save"
+        secondaryLabel="Cancel"
+        fields={mockFields}
+        values={{}}
+        onClose={mockOnClose}
+        onSave={mockOnSave}
+      />
+    );
     const user = userEvent;
     const cancelButton = screen.getByText("Cancel");
     user.click(cancelButton);
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
-
+  it("calls onClose when Cancel button is clicked", async () => {
+    render(
+      <InputModal
+        isOpen={true}
+        title="Add new stage"
+        primaryLabel="Save"
+        secondaryLabel="Cancel"
+        fields={mockFields}
+        values={{}}
+        onClose={mockOnClose}
+        onSave={mockOnSave}
+      />
+    );
+    const user = userEvent;
+    const cancelButton = screen.getByText("Cancel");
+    user.click(cancelButton);
+    expect(mockOnClose).toHaveBeenCalledTimes(1);
+  });
   it("calls onSave only when required fields are completed", async () => {
-    render(<TestHost isOpen />);
+    render(
+      <InputModal
+        isOpen={true}
+        title="Add new stage"
+        primaryLabel="Save"
+        secondaryLabel="Cancel"
+        fields={mockFields}
+        values={{}}
+        onClose={mockOnClose}
+        onSave={mockOnSave}
+      />
+    );
     const user = userEvent;
     const saveButton = screen.getByText("Save");
 
     user.click(saveButton);
     expect(mockOnSave).not.toHaveBeenCalled();
 
-    user.type(screen.getByLabelText("Title*"), "Test Title");
-    user.type(screen.getByLabelText("Description*"), "Test Description");
-    user.selectOptions(
-      screen.getByLabelText("Status*"),
-      TimelineStatusEnum.Info
-    );
+    const titleInput = screen.getByTestId("input-title");
+    user.type(titleInput, "Test Title");
+    const descriptionInput = screen.getByTestId("textarea-description");
+    user.type(descriptionInput, "Test Description");
+    const statusSelect = screen.getByTestId("select-status");
+    user.selectOptions(statusSelect, TimelineStatusEnum.Info);
+
+    expect(titleInput).toHaveValue("Test Title");
+    expect(descriptionInput).toHaveValue("Test Description");
+    expect(statusSelect).toHaveValue(TimelineStatusEnum.Info);
 
     user.click(saveButton);
-    expect(mockOnSave).toHaveBeenCalledTimes(1);
-  });
-  it("calls onChange when input fields are changed", async () => {
-    render(<TestHost isOpen />);
-    const user = userEvent;
-    const titleInput = screen.getByLabelText("Title*") as HTMLInputElement;
-    user.type(titleInput, "New Title");
-    expect(titleInput.value).toBe("New Title");
-    const descriptionInput = screen.getByLabelText(
-      "Description*"
-    ) as HTMLTextAreaElement;
-    user.type(descriptionInput, "New Description");
-    expect(descriptionInput.value).toBe("New Description");
-    const extraDescriptionInput = screen.getByLabelText(
-      "Extra Description"
-    ) as HTMLTextAreaElement;
-    user.type(extraDescriptionInput, "Some extra info");
-    expect(extraDescriptionInput.value).toBe("Some extra info");
-    const statusSelect = screen.getByLabelText("Status*") as HTMLSelectElement;
-    user.selectOptions(statusSelect, TimelineStatusEnum.Info);
-    expect(statusSelect.value).toBe(TimelineStatusEnum.Info);
+    expect(mockOnSave).toHaveBeenCalledWith({
+      title: "Test Title",
+      description: "Test Description",
+      extraDescription: "",
+      status: TimelineStatusEnum.Info,
+    });
   });
 });

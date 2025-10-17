@@ -16,25 +16,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  render: (args) => {
-    const [values, setValues] = useState<Record<string, unknown>>({
-      title: "",
-      description: "",
-      extraDescription: "",
-      status: "",
-    });
-    return (
-      <InputModal
-        {...args}
-        values={values}
-        onChange={(name, value) =>
-          setValues((prev) => ({ ...prev, [name as string]: value }))
-        }
-      />
-    );
-  },
-};
+export const Default: Story = {};
 
 Default.args = {
   isOpen: true,
@@ -85,4 +67,16 @@ Default.args = {
       required: true,
     },
   ],
+};
+
+export const InitialValues: Story = {};
+
+InitialValues.args = {
+  ...Default.args,
+  values: {
+    title: "Test Title",
+    description: "Test Description",
+    extraDescription: "",
+    status: TimelineStatusEnum.Info,
+  },
 };

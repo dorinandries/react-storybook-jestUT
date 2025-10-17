@@ -7,10 +7,11 @@ export type InputModalProps = {
   secondaryLabel: string;
   fields: FieldProps[];
   values: Record<string, unknown>; // controlled values
-  onChange: (name: string, value: unknown) => void; // controlled change
+  additionalFieldsForData?: Record<string, unknown>; 
   onClose: () => void;
-  onSave: () => void;
+  onSave: (data: any) => void;
 };
+
 
 export type Options = {
     label: string;
@@ -20,7 +21,7 @@ export type Options = {
 export type FieldProps = {
     type: "text"|"select"|"textarea";
     label: string;
-    value: string;
+    value?: string;
     name: string;
     required?: boolean;
     placeholder?: string;

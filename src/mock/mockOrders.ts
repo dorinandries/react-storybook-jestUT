@@ -13,6 +13,7 @@ export const mockOrders: Order[] = [
     createdAt: new Date(2024, 8, 19, 9, 36).toISOString(),
     stages: [
       {
+        id: 0,
         title: "Order created",
         description: "Order successfully created by customer",
         date: "Fri Sep 19",
@@ -20,6 +21,7 @@ export const mockOrders: Order[] = [
         status: TimelineStatusEnum.Completed,
       },
       {
+        id: 1,
         title: "Order validated",
         description: "Merchant validated order",
         date: "Fri Sep 19",
@@ -27,6 +29,7 @@ export const mockOrders: Order[] = [
         status: TimelineStatusEnum.Completed,
       },
       {
+        id: 2,
         title: "Order waiting to be picked up",
         description:
           "Order has been packed and is ready to be picked up by the delivery team",
@@ -37,6 +40,7 @@ export const mockOrders: Order[] = [
           "Heads up: we're waiting for the courier to pick up your package. High order volume may extend delivery time. We'll update you once it's collected.",
       },
       {
+        id: 3,
         title: "Order picked up by courier",
         description: "Courier collected the package",
         date: "Mon Sep 22",
@@ -65,6 +69,7 @@ export const mockOrders: Order[] = [
     createdAt: new Date(2025, 0, 25, 19, 21).toISOString(),
     stages: [
       {
+        id: 0,
         title: "Order created",
         description: "Order successfully created by customer",
         date: "Mon Jan 25",

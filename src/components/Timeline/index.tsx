@@ -4,28 +4,32 @@ import { Stage } from "../../types";
 import TimelineItem, { TimelineItemProps } from "./TimelineItem";
 import { TimelineContainer } from "./styles";
 
-export default function Timeline({ stages, ...props }: { stages: Stage[], "data-testid"?: string }) {
+export default function Timeline({
+  stages,
+  handleEditStageButton,
+  ...props
+}: {
+  stages: Stage[];
+  handleEditStageButton: (index: number) => void;
+  "data-testid"?: string;
+}) {
   const { ["data-testid"]: testId } = props;
-  // Ensure first & last flags and at least first is green (created)
-  const normalized = useMemo(() => {
-    if (!stages.length) return stages;
-    const copy: TimelineItemProps[] = stages.map((s) => ({ ...s }));
-    copy[0].isFirstElement = true;
-    copy[0].status = copy[0].status || "success";
-    // if (copy.length > 1) {
-    copy[copy.length - 1].isLastElement = true;
-    // }
-    return copy;
-  }, [stages]);
 
-  console.log("Normalized Stages:", normalized);
+  const onEditStage = (index: number) => () => {
+    handleEditStageButton(index);
+  };
+
+  //console.log("Normalized Stages:", normalized);
   return (
     <TimelineContainer data-testid={testId}>
-      {normalized.map((s, i) => (
+      {stages.map((s, i) => (
         <TimelineItem
           key={`${s.title}-${i}`}
           {...s}
+          isFirstElement={i === 0}
+          isLastElement={i === stages.length - 1}
           data-testid={`timeline-item-${i}`}
+          onEditStage={onEditStage(i)}
         />
       ))}
     </TimelineContainer>

@@ -12,7 +12,7 @@ type CardDetailsProps = {
 };
 
 const CardDetails = ({
-  title,
+  title = "",
   prop1,
   prop2,
   separator,
@@ -22,7 +22,7 @@ const CardDetails = ({
     <CardDetailsStatus $space_between={$space_between}>
       <h4>
         <strong>
-          {title} {separator || null}
+          {title || null} {separator || null}
         </strong>
       </h4>
       <div>{prop1 !== undefined && <>{prop1}</>}</div>

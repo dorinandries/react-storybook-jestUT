@@ -22,6 +22,7 @@ export const enum TimelineStatusEnum {
 }
 
 export interface Stage  {
+  id?: number;
   title: string;
   description: string;
   date: string;
