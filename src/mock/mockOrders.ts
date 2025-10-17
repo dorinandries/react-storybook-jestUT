@@ -79,4 +79,113 @@ export const mockOrders: Order[] = [
     ],
     orderStatus: OrderStatusEnum.Preparing,
   },
+  {
+    idOrder: "ORD-2025-0125-002",
+    user: {
+      name: "Alexander Smith",
+      email: "alexander.smith@example.com",
+      address: "310 Regent Street, London W1B 3HH",
+      phone: "+44 20 8556 3920",
+    },
+    createdAt: new Date(2025, 0, 25, 19, 21).toISOString(),
+    stages: [
+      {
+        id: 0,
+        title: "Order created",
+        description: "Order successfully created by customer",
+        date: "Mon Jan 25",
+        time: "19:21",
+        status: TimelineStatusEnum.Completed,
+      },
+    ],
+    orderStatus: OrderStatusEnum.Preparing,
+  },
+
+  {
+    idOrder: "ORD-2025-0125-003",
+    user: {
+      name: "Alexander Smith",
+      email: "alexander.smith@example.com",
+      address: "310 Regent Street, London W1B 3HH",
+      phone: "+44 20 8556 3920",
+    },
+    createdAt: new Date(2025, 0, 25, 19, 21).toISOString(),
+    stages: [
+      {
+        id: 0,
+        title: "Order created",
+        description: "Order successfully created by customer",
+        date: "Mon Jan 25",
+        time: "19:21",
+        status: TimelineStatusEnum.Completed,
+      },
+    ],
+    orderStatus: OrderStatusEnum.Preparing,
+  },
+
+  {
+    idOrder: "ORD-2025-0125-004",
+    user: {
+      name: "Alexander Smith",
+      email: "alexander.smith@example.com",
+      address: "310 Regent Street, London W1B 3HH",
+      phone: "+44 20 8556 3920",
+    },
+    createdAt: new Date(2025, 0, 25, 19, 21).toISOString(),
+    stages: [
+      {
+        id: 0,
+        title: "Order created",
+        description: "Order successfully created by customer",
+        date: "Mon Jan 25",
+        time: "19:21",
+        status: TimelineStatusEnum.Completed,
+      },
+    ],
+    orderStatus: OrderStatusEnum.Preparing,
+  },
+
+  {
+    idOrder: "ORD-2025-0125-005",
+    user: {
+      name: "Alexander Smith",
+      email: "alexander.smith@example.com",
+      address: "310 Regent Street, London W1B 3HH",
+      phone: "+44 20 8556 3920",
+    },
+    createdAt: new Date(2025, 0, 25, 19, 21).toISOString(),
+    stages: [
+      {
+        id: 0,
+        title: "Order created",
+        description: "Order successfully created by customer",
+        date: "Mon Jan 25",
+        time: "19:21",
+        status: TimelineStatusEnum.Completed,
+      },
+    ],
+    orderStatus: OrderStatusEnum.Preparing,
+  },
+
+  {
+    idOrder: "ORD-2025-0125-006",
+    user: {
+      name: "Alexander Smith",
+      email: "alexander.smith@example.com",
+      address: "310 Regent Street, London W1B 3HH",
+      phone: "+44 20 8556 3920",
+    },
+    createdAt: new Date(2025, 0, 25, 19, 21).toISOString(),
+    stages: [
+      {
+        id: 0,
+        title: "Order created",
+        description: "Order successfully created by customer",
+        date: "Mon Jan 25",
+        time: "19:21",
+        status: TimelineStatusEnum.Completed,
+      },
+    ],
+    orderStatus: OrderStatusEnum.Preparing,
+  },
 ];

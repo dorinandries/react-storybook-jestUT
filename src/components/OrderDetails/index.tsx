@@ -6,15 +6,13 @@ import {
   DetailsHeader,
   DetailsWrap,
   StyledBox,
-  TwoCol,
-  TwoRows,
+  Rows,
+  Cols,
   UserCard,
 } from "../../styles";
 import OrderTimelineButtons from "../OrderTimelineButtons";
-import { StageForm } from "../StageForm";
 import { Subtle } from "../OrderCard/styles";
 import CardDetails from "../OrderCard/CardDetails";
-import { Item } from "../Timeline/TimelineItem/styles";
 import { TimelineContainer } from "../Timeline/styles";
 import InputModal from "../InputModal";
 import { useState } from "react";
@@ -139,14 +137,15 @@ export default function OrderDetails({
         )
       );
     } else {
-      alert("Updating existing stage " + id);
       setOrders((prev) =>
         prev.map((o) =>
           o.idOrder === selectedOrder.idOrder
             ? {
                 ...o,
                 stages: o.stages.map((s, idx) =>
-                  idx === id ? { ...s, title, description, extraDescription, status } : s
+                  idx === id
+                    ? { ...s, title, description, extraDescription, status }
+                    : s
                 ),
               }
             : o
@@ -159,7 +158,7 @@ export default function OrderDetails({
   return (
     <DetailsWrap data-testid={`order-details`}>
       <DetailsHeader>
-        <h3>Order #{selectedOrder.idOrder}</h3>
+        <h4>Order #{selectedOrder.idOrder}</h4>
 
         <OrderTimelineButtons
           canCancel={canAct}
@@ -171,21 +170,19 @@ export default function OrderDetails({
         />
       </DetailsHeader>
 
-      <TwoCol>
-        <TwoRows>
+      <Rows>
+        <Cols>
           <CardDetails
-            title={"Created:"}
-            prop1={`${created.date} • ${created.time}`}
+            prop1={`Created: ${created.date} • ${created.time}`}
             $space_between={false}
           />
           <CardDetails
-            title={"Latest status:"}
-            prop1={latest.title}
+            prop1={`Latest status: ${latest.title}`}
             $space_between={false}
           />
           {/* </Subtle> */}
 
-          <TwoRows data-testid="timeline-section">
+          <Cols data-testid="timeline-section">
             <StyledBox $status={TimelineStatusEnum.Pending}>
               Status timeline
             </StyledBox>
@@ -195,23 +192,22 @@ export default function OrderDetails({
               data-testid="order-timeline"
               handleEditStageButton={handleEditStageButton}
             />
-          </TwoRows>
-        </TwoRows>
-
+          </Cols>
+        </Cols>
+      </Rows>
+      <Rows>
         <TimelineContainer>
-          <TwoRows>
-            <StyledBox $status={OrderStatusEnum.Completed}>Customer</StyledBox>
-            <UserCard>
-              <Subtle>
-                <strong>{selectedOrder.user.name}</strong>
-              </Subtle>
-              <Subtle>{selectedOrder.user.email}</Subtle>
-              <Subtle>{selectedOrder.user.address}</Subtle>
-              <Subtle>{selectedOrder.user.phone}</Subtle>
-            </UserCard>
-          </TwoRows>
+          <StyledBox $status={OrderStatusEnum.Completed}>Customer</StyledBox>
+          <UserCard>
+            <Subtle>
+              <strong>{selectedOrder.user.name}</strong>
+            </Subtle>
+            <Subtle>{selectedOrder.user.email}</Subtle>
+            <Subtle>{selectedOrder.user.address}</Subtle>
+            <Subtle>{selectedOrder.user.phone}</Subtle>
+          </UserCard>
         </TimelineContainer>
-      </TwoCol>
+      </Rows>
       {/* <StageForm
         showAddStage={showAddStage}
         onCloseStageForm={onCloseStageForm}
@@ -227,7 +223,9 @@ export default function OrderDetails({
         secondaryLabel="Cancel"
         onClose={handleCloseStage}
         onSave={handleSaveStage}
-        additionalFieldsForData={typeof stageForm.id === "number" ? { id: stageForm.id } : undefined}
+        additionalFieldsForData={
+          typeof stageForm.id === "number" ? { id: stageForm.id } : undefined
+        }
         fields={formFieldsStages}
         values={stageForm}
       />

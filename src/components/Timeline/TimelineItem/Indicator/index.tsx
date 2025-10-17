@@ -8,9 +8,13 @@ type IndicatorProps = {
   isLastElement?: boolean;
 };
 
-export const Indicator: React.FC<IndicatorProps> = ({ status, isFirstElement, isLastElement }) => {
+export const Indicator: React.FC<IndicatorProps> = ({
+  status,
+  isFirstElement,
+  isLastElement,
+}) => {
   return (
-    <Wrapper>
+    <Wrapper aria-label="Timeline Indicator">
       <TopLine $isFirstElement={!!isFirstElement} />
       <Circle $status={status} />
       <BottomLine $isLastElement={!!isLastElement} />

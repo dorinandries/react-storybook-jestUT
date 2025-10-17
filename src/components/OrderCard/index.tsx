@@ -29,6 +29,7 @@ export default function OrderCard({
           title={`Order #${order.idOrder}`}
           prop1={<Badge $status={latest.status}>{latest.title}</Badge>}
           prop2={<Led $orderStatus={order.orderStatus} />}
+          // $space_between={true}
         />
       </CardTitle>
 
