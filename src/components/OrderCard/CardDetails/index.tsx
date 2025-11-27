@@ -1,10 +1,10 @@
 // src/components/OrderCard/CardDetails/index.tsx
 
 import React from "react";
-import { CardDetailsStatusStyled } from "../styles";
+import { CardDetailsStatusStyled, Prop1Styled, Prop2Styled } from "../styles";
 
 type CardDetailsProps = {
-  title: React.ReactNode;
+  title?: React.ReactNode;
   prop1?: React.ReactNode;
   prop2?: React.ReactNode;
   separator?: React.ReactNode;
@@ -12,7 +12,7 @@ type CardDetailsProps = {
 };
 
 const CardDetails = ({
-  title,
+  title = "",
   prop1,
   prop2,
   separator,
@@ -20,11 +20,11 @@ const CardDetails = ({
 }: CardDetailsProps) => {
   return (
     <CardDetailsStatus $space_between={$space_between}>
-      <strong>
-        {title} {separator || null}
-      </strong>
-      {prop1 !== undefined && <>{prop1}</>}
-      {prop2 !== undefined && <>{prop2}</>}
+      <h5>
+          {title || null} {separator || null}
+      </h5>
+      <Prop1Styled>{prop1 !== undefined && <>{prop1}</>}</Prop1Styled>
+      <Prop2Styled>{prop2 !== undefined && <>{prop2}</>}</Prop2Styled>
     </CardDetailsStatus>
   );
 };

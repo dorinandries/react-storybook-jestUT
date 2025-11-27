@@ -36,17 +36,29 @@ const pulse = keyframes`
 
 export const Page = styled.div`
   min-height: 100vh;
-  padding: 24px;
-  background: #f7f8fa;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  padding: 1.2rem;
+  background: #edeff1;
   color: #1f2937;
+  min-width: 400px;
+  h2 {
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 768px) {
+    h2 {
+      margin: 1rem auto;
+      text-align: center;
+    }
+  }
 `;
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); // old 360px
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 1rem;
+  @media (max-width: 768px) {
+    grid-template-columns: fit-content(100%);
+    justify-content: center;
+  }
 `;
 
 export const StyledBox = styled.div<{ $status: string }>`
@@ -85,34 +97,10 @@ export const Led = styled.span<{ $orderStatus: string }>`
  *************************/
 
 export const DetailsWrap = styled.div`
-  margin-top: 16px;
+  margin-top: 40px;
   padding: 16px;
   border-radius: 12px;
   background: #fff;
-  border: 1px solid #e5e7eb;
-`;
-
-export const TwoCol = styled.div`
-  display: grid;
-  grid-template-columns: 1.25fr 1fr;
-  gap: 20px;
-  @media (max-width: 820px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-export const TwoRows = styled.div`
-  display: grid;
-  grid-template-rows: 0.25fr;
-  padding:10px;
-  @media (max-width: 820px) {
-    grid-template-rows: 0fr;
-  }
-`;
-export const UserCard = styled.div`
-  background: #fff;
-  padding: 12px;
-  border-radius: 12px;
   border: 1px solid #e5e7eb;
 `;
 
@@ -121,4 +109,29 @@ export const DetailsHeader = styled.div`
   align-items: center;
   justify-content: space-between; /* title left, actions right */
   gap: 12px;
+
+  @media (max-width: 550px) {
+    flex-direction: column;
+  }
+`;
+
+export const Rows = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+`;
+
+export const Cols = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+`;
+export const UserCard = styled.div`
+  background: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
 `;

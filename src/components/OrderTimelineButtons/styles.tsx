@@ -1,11 +1,10 @@
 // src/components/OrderStatusActions/styles.tsx
 import { styled } from "styled-components";
 
-
 export const ContainerButtons = styled.div`
-    display: flex;
-    gap: 8px;
-    margin: 24px 0;
+  display: flex;
+  gap: 8px;
+  margin: 24px 0;
 `;
 
 export const DangerButton = styled.button`
@@ -48,4 +47,20 @@ export const InfoButton = styled.button`
   &:hover {
     background: #c3cdfa;
   }
+`;
+
+export const EditButton = styled.button`
+  appearance: none;
+  border: 1px solid #1febe1ff;
+  background: #e6edffff;
+  color: #0d918aff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  &:hover {
+    background: #c3cdfa;
+  }
+  width: 50px;
+  height: 30px;
 `;

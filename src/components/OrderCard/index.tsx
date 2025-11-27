@@ -24,18 +24,19 @@ export default function OrderCard({
       $selected={selected}
       data-testid={`order-card-${order.idOrder}`}
     >
-      <CardTitle>
+      <CardTitle data-testid={`order-card-title`}>
         <CardDetails
           title={`Order #${order.idOrder}`}
           prop1={<Badge $status={latest.status}>{latest.title}</Badge>}
           prop2={<Led $orderStatus={order.orderStatus} />}
+          // $space_between={true}
         />
       </CardTitle>
 
-      <Subtle>
+      <Subtle data-testid={`order-card-`}>
         <CardDetails title={"Customer"} prop1={order.user.name} />
         <CardDetails title={"Address"} prop1={order.user.address} />
-        <CardDetails title={"Created"} prop1={`${date} • ${time}`}/>
+        <CardDetails title={"Created"} prop1={`${date} • ${time}`} />
       </Subtle>
     </Card>
   );
