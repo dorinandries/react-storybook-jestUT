@@ -22,13 +22,15 @@ export const enum StageStatusEnum {
 }
 
 export interface Stage {
-	id?: number;
+	id?: string;
 	title: string;
 	description: string;
 	date: string;
 	time: string;
 	extraDescription?: React.ReactNode;
 	status: StageStatusEnum;
+	isFirstElement?: boolean;
+	isLastElement?: boolean;
 }
 
 export type Order = {

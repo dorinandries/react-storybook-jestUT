@@ -1,6 +1,8 @@
 // src/mock/mockOrders.ts
 import { Order, OrderStatusEnum, StageStatusEnum } from '../types';
 
+export const BASE_STAGE_ID = 'Stage-00';
+
 export const mockOrders: Order[] = [
 	{
 		idOrder: 'ORD-2024-0919-001',
@@ -13,7 +15,7 @@ export const mockOrders: Order[] = [
 		createdAt: new Date(2024, 8, 19, 9, 36).toISOString(),
 		stages: [
 			{
-				id: 0,
+				id: `${BASE_STAGE_ID}000`,
 				title: 'Order created',
 				description: 'Order successfully created by customer',
 				date: 'Fri Sep 19',
@@ -21,7 +23,7 @@ export const mockOrders: Order[] = [
 				status: StageStatusEnum.Completed,
 			},
 			{
-				id: 1,
+				id: `${BASE_STAGE_ID}001`,
 				title: 'Order validated',
 				description: 'Merchant validated order',
 				date: 'Fri Sep 19',
@@ -29,7 +31,7 @@ export const mockOrders: Order[] = [
 				status: StageStatusEnum.Completed,
 			},
 			{
-				id: 2,
+				id: `${BASE_STAGE_ID}002`,
 				title: 'Order waiting to be picked up',
 				description:
 					'Order has been packed and is ready to be picked up by the delivery team',
@@ -40,7 +42,7 @@ export const mockOrders: Order[] = [
 					"Heads up: we're waiting for the courier to pick up your package. High order volume may extend delivery time. We'll update you once it's collected.",
 			},
 			{
-				id: 3,
+				id: `${BASE_STAGE_ID}003`,
 				title: 'Order picked up by courier',
 				description: 'Courier collected the package',
 				date: 'Mon Sep 22',
@@ -69,7 +71,7 @@ export const mockOrders: Order[] = [
 		createdAt: new Date(2025, 0, 25, 19, 21).toISOString(),
 		stages: [
 			{
-				id: 0,
+				id: `${BASE_STAGE_ID}010`,
 				title: 'Order created',
 				description: 'Order successfully created by customer',
 				date: 'Mon Jan 25',
@@ -90,7 +92,7 @@ export const mockOrders: Order[] = [
 		createdAt: new Date(2025, 0, 25, 19, 21).toISOString(),
 		stages: [
 			{
-				id: 0,
+				id: `${BASE_STAGE_ID}020`,
 				title: 'Order created',
 				description: 'Order successfully created by customer',
 				date: 'Mon Jan 25',
@@ -112,7 +114,7 @@ export const mockOrders: Order[] = [
 		createdAt: new Date(2025, 0, 25, 19, 21).toISOString(),
 		stages: [
 			{
-				id: 0,
+				id: `${BASE_STAGE_ID}030`,
 				title: 'Order created',
 				description: 'Order successfully created by customer',
 				date: 'Mon Jan 25',
@@ -134,7 +136,7 @@ export const mockOrders: Order[] = [
 		createdAt: new Date(2025, 0, 25, 19, 21).toISOString(),
 		stages: [
 			{
-				id: 0,
+				id: `${BASE_STAGE_ID}040`,
 				title: 'Order created',
 				description: 'Order successfully created by customer',
 				date: 'Mon Jan 25',
@@ -156,7 +158,7 @@ export const mockOrders: Order[] = [
 		createdAt: new Date(2025, 0, 25, 19, 21).toISOString(),
 		stages: [
 			{
-				id: 0,
+				id: `${BASE_STAGE_ID}050`,
 				title: 'Order created',
 				description: 'Order successfully created by customer',
 				date: 'Mon Jan 25',
@@ -178,7 +180,7 @@ export const mockOrders: Order[] = [
 		createdAt: new Date(2025, 0, 25, 19, 21).toISOString(),
 		stages: [
 			{
-				id: 0,
+				id: `${BASE_STAGE_ID}060`,
 				title: 'Order created',
 				description: 'Order successfully created by customer',
 				date: 'Mon Jan 25',

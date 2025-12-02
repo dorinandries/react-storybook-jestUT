@@ -1,6 +1,6 @@
 // src/components/OrderDetails/index.tsx
-import { Order, OrderStatusEnum, StageStatusEnum } from '../../types';
-import { formatDateTime, nowStageDateTime } from '../../utilities';
+import { Order, OrderStatusEnum, Stage, StageStatusEnum } from '../../types';
+import { formatDateTime, getDateTime } from '../../utilities';
 import Timeline from '../Stages';
 import {
 	DetailsHeader,
@@ -16,6 +16,7 @@ import CardDetails from '../OrderCard/CardDetails';
 import { StagesContainer } from '../Stages/styles';
 import InputModal from '../InputModal';
 import { useState } from 'react';
+import { BASE_STAGE_ID } from '../../mock/mockOrders';
 
 export default function OrderDetails({
 	selectedOrder,
@@ -75,7 +76,7 @@ export default function OrderDetails({
 
 	// Add stage popup state
 	const [stageForm, setStageForm] = useState({
-		id: undefined as number | undefined,
+		id: undefined as string | undefined,
 		title: '',
 		description: '',
 		extraDescription: '',
@@ -89,7 +90,7 @@ export default function OrderDetails({
 	const handleAddStageButton = () => {
 		setShowAddStage(true);
 		setStageForm({
-			id: undefined,
+			id: '',
 			title: '',
 			description: '',
 			extraDescription: '',
@@ -97,9 +98,11 @@ export default function OrderDetails({
 		});
 	};
 
-	const handleEditStageButton = (id: number) => {
+	const handleEditStageButton = (id: string) => {
 		setShowAddStage(true);
-		const stage = selectedOrder.stages[id];
+		const stage = selectedOrder.stages.filter((s) => s.id === id)[0]!;
+		console.log(id);
+		console.log(stage);
 		setStageForm({
 			id: id,
 			title: stage.title ?? '',
@@ -116,18 +119,17 @@ export default function OrderDetails({
 		setShowAddStage(false);
 	};
 
-	const handleSaveStage = (data: any) => {
-		const { title, description, extraDescription, status, id } = data;
+	const handleSaveStage = (data: Stage) => {
+		const { id, ...rest } = data;
+		// alert(id);
+		console.log(data);
 		if (!id) {
-			const { date, time } = nowStageDateTime();
+			const { date, time } = getDateTime();
 			const newStage = {
-				title: title,
-				description: description,
+				...rest,
 				date,
 				time,
-				extraDescription: extraDescription,
-				status: status,
-				id: selectedOrder.stages.length + 1,
+				id: `${BASE_STAGE_ID}${selectedOrder.stages.length + 1}`,
 			};
 			setOrders((prev) =>
 				prev.map((o) =>
@@ -142,10 +144,8 @@ export default function OrderDetails({
 					o.idOrder === selectedOrder.idOrder
 						? {
 								...o,
-								stages: o.stages.map((s, idx) =>
-									idx === id
-										? { ...s, title, description, extraDescription, status }
-										: s
+								stages: o.stages.map((s) =>
+									s.id === id ? { ...s, ...rest } : s
 								),
 						  }
 						: o
@@ -224,7 +224,7 @@ export default function OrderDetails({
 				onClose={handleCloseStage}
 				onSave={handleSaveStage}
 				additionalFieldsForData={
-					typeof stageForm.id === 'number' ? { id: stageForm.id } : undefined
+					typeof stageForm.id === 'string' ? { id: stageForm.id } : undefined
 				}
 				fields={formFieldsStages}
 				values={stageForm}

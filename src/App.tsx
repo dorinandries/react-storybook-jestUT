@@ -1,12 +1,12 @@
-import React from "react";
-import Orders from "./pages/Orders";
+import React from 'react';
+import Orders from './pages/Orders';
 
-const App =() => {
-  return (
-    <>
-      <Orders />
-    </>
-  );
+const App = () => {
+	return (
+		<>
+			<Orders />
+		</>
+	);
 };
 
 export default App;

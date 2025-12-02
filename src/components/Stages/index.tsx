@@ -10,12 +10,12 @@ export default function Stages({
 	...props
 }: {
 	stages: Stage[];
-	handleEditStageButton: (index: number) => void;
+	handleEditStageButton: (index: string) => void;
 	'data-testid'?: string;
 }) {
 	const { ['data-testid']: testId } = props;
 
-	const onEditStage = (index: number) => () => {
+	const onEditStage = (index: string) => () => {
 		handleEditStageButton(index);
 	};
 
@@ -29,7 +29,7 @@ export default function Stages({
 					isFirstElement={i === 0}
 					isLastElement={i === stages.length - 1}
 					data-testid={`timeline-item-${i}`}
-					onEditStage={onEditStage(i)}
+					onEditStage={onEditStage(s?.id ?? '')}
 				/>
 			))}
 		</StagesContainer>

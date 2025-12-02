@@ -1,11 +1,17 @@
 // pages/Orders.tsx
 import React, { useMemo, useState, useEffect } from 'react';
-import { Grid, Page } from '../styles';
-import { getOrders } from '../api/getOrders';
-import OrderDetails from '../components/OrderDetails';
-import OrderCard from '../components/OrderCard';
-import { OrderStatusEnum, StageStatusEnum, type Order } from '../types';
-import { nowStageDateTime } from '../utilities';
+import { Grid, Page } from '../../styles';
+import { getOrders } from '../../api/getOrders';
+import OrderDetails from '../../components/OrderDetails';
+import OrderCard from '../../components/OrderCard';
+import {
+	OrderStatusEnum,
+	Stage,
+	StageStatusEnum,
+	type Order,
+} from '../../types';
+import { getDateTime } from '../../utilities';
+import { getFinalStage } from './helper';
 
 function Orders() {
 	const [orders, setOrders] = useState<Order[]>([]);
@@ -31,52 +37,26 @@ function Orders() {
 		[orders, selectedOrderId]
 	);
 
-	const appendTerminalStage = (id: string, kind: OrderStatusEnum) => {
+	const appendTerminalStage = (id: string, orderStatus: OrderStatusEnum) => {
 		setOrders((prev) =>
-			prev.map((o) => {
-				if (o.idOrder !== id) return o;
+			prev.map((item: Order) => {
+				if (item.idOrder !== id) return item;
 
-				// if already terminal or already at 5 stages, keep as is
-				if (o.stages.length >= 5 || o.orderStatus === kind) return o;
+				// // if already terminal or already at 5 stages, keep as is
+				// if (item.stages.length >= 5 || item.orderStatus === orderStatus)
+				// 	return item;
 
-				const { date, time } = nowStageDateTime();
+				const finalStage = getFinalStage({...item, orderStatus});
 
-				const title =
-					kind === OrderStatusEnum.Canceled
-						? 'Order canceled'
-						: 'Order completed';
-				const description =
-					kind === OrderStatusEnum.Canceled
-						? 'Delivery could not be completed'
-						: 'Order successfully completed';
-				const extraDescription =
-					kind === OrderStatusEnum.Canceled
-						? 'Order canceled'
-						: 'Order completed';
-				const status: StageStatusEnum.Error | StageStatusEnum.Completed =
-					kind === OrderStatusEnum.Canceled
-						? StageStatusEnum.Error
-						: StageStatusEnum.Completed;
-
-				const prevStages = o.stages.map((s) => ({
-					...s,
+				const prevStages = item.stages.map((stage) => ({
+					...stage,
 					isLastElement: false,
 				}));
 
-				const newStage = {
-					title,
-					description,
-					date, // today
-					time, // now
-					status, // "error" | "completed"
-					isLastElement: true,
-					extraDescription,
-				};
-
 				return {
-					...o,
-					stages: [...prevStages, newStage].slice(0, 5),
-					orderStatus: kind,
+					...item,
+					stages: [...prevStages, finalStage],//.slice(0, 5),
+					orderStatus,
 				};
 			})
 		);
