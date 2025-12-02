@@ -1,46 +1,106 @@
-# Getting Started with Create React App
+# Order Management Demo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a modern React + TypeScript demo application for managing and tracking customer orders. It showcases a component-driven architecture, interactive UI, and robust testing and documentation using Storybook and Jest.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Key Features
 
-### `npm start`
+- **Order Dashboard**  
+  View a list of all customer orders in a responsive grid layout.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Order Details & Timeline**  
+  Click any order to see detailed information, including a timeline of all order stages (created, validated, picked up, etc.).
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **Stage Management**  
+  Add, edit, or update stages for each order. Each stage displays status, description, and extra notes.
 
-### `npm test`
+- **Order Status Actions**  
+  Mark orders as completed or canceled directly from the details panel.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Customer Info**  
+  Instantly view customer contact and address details for each order.
 
-### `npm run build`
+- **Interactive Modals**  
+  Add or edit order stages using accessible, form-driven modals.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Visual Status Indicators**  
+  Color-coded badges and animated indicators for order and stage statuses.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Component-Driven Development**  
+  All UI elements are built as reusable, isolated components.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Storybook Integration**  
+  Browse and interact with all UI components in isolation for rapid development and documentation.
 
-### `npm run eject`
+- **Comprehensive Testing**  
+  Unit and integration tests for all major components using Jest and React Testing Library.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🎯 Purpose
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This project is designed as a reference implementation for:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Building scalable, maintainable React applications with TypeScript.
+- Demonstrating best practices in UI state management, component composition, and styling.
+- Providing a robust foundation for order or workflow management systems.
+- Serving as a playground for Storybook and testing integration.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🛠️ Tech Stack
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **React 19** + **TypeScript**
+- **Styled Components** for modular, themeable styles
+- **Jest** & **React Testing Library** for testing
+- **Storybook** for component documentation and visual testing
+- **Mock Data** for rapid prototyping
+
+---
+
+## 📦 Getting Started
+
+1. **Install dependencies**
+
+   ```sh
+   npm install
+   ```
+
+2. **Run the app**
+
+   ```sh
+   npm start
+   ```
+
+3. **Run Storybook**
+
+   ```sh
+   npm run storybook
+   ```
+
+4. **Run tests**
+   ```sh
+   npm test
+   ```
+
+---
+
+## 📚 Project Structure
+
+- `src/components/` – All UI components (OrderCard, OrderDetails, Timeline, etc.)
+- `src/pages/Orders/` – Main Orders page logic and helpers
+- `src/mock/` – Mock order data for development/testing
+- `src/types/` – TypeScript type definitions
+- `src/utilities/` – Utility functions (date formatting, etc.)
+- `src/stories/` – Storybook stories and assets
+
+---
+
+## 👀 Demo Scenarios
+
+- View all orders and their statuses at a glance.
+- Drill down into any order to see its full timeline and customer details.
+- Add new stages or update existing ones for any order.
+- Mark orders as completed or canceled, with the timeline updating accordingly.
+- Explore and test all UI components in isolation via Storybook.
