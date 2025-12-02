@@ -18,8 +18,7 @@ import { Rows, Cols } from '../../../styles';
 import { EditButton, InfoButton } from '../../OrderTimelineButtons/styles';
 
 export interface StageItemProps extends Stage {
-	isFirstElement?: boolean;
-	isLastElement?: boolean;
+
 	'data-testid'?: string;
 	onEditStage: () => void;
 }
@@ -88,9 +87,7 @@ export default function StageItem({
 
 						<Rows>
 							<Cols>
-								<Desc data-testid='stage-item-description'>
-									{description}
-								</Desc>
+								<Desc data-testid='stage-item-description'>{description}</Desc>
 							</Cols>
 						</Rows>
 

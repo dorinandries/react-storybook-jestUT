@@ -2,11 +2,11 @@
 import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Orders from './Orders';
+import Orders from '.';
 
-import { getOrders } from '../api/getOrders';
-import { mockOrders } from '../mock/mockOrders';
-import { OrderStatusEnum, StageStatusEnum, Order } from '../types';
+import { getOrders } from '../../api/getOrders';
+import { mockOrders } from '../../mock/mockOrders';
+import { OrderStatusEnum, StageStatusEnum, Order } from '../../types';
 
 jest.mock('../api/getOrders', () => ({
 	__esModule: true,
