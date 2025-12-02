@@ -103,4 +103,4 @@ This project is designed as a reference implementation for:
 - Drill down into any order to see its full timeline and customer details.
 - Add new stages or update existing ones for any order.
 - Mark orders as completed or canceled, with the timeline updating accordingly.
-- Explore and test all UI components in isolation via Storybook.
+- Explore and test UI components in isolation via Storybook.
