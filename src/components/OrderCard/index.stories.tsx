@@ -8,7 +8,7 @@ import OrderCard from './index';
 import { OrderStatusEnum, StageStatusEnum } from '../../types';
 
 const meta: Meta<typeof OrderCard> = {
-	title: 'PRJ_Marina/OrderCard',
+	title: 'order_management/OrderCard',
 	component: OrderCard,
 	parameters: {
 		layout: 'fullscreen',

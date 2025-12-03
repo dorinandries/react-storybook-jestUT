@@ -6,7 +6,7 @@ import { Meta, StoryObj } from '@storybook/react-webpack5';
 import { useState } from 'react';
 
 const meta: Meta<typeof InputModal> = {
-	title: 'PRJ_Marina/InputModal',
+	title: 'order_management/InputModal',
 	component: InputModal,
 	parameters: {
 		layout: 'fullscreen',

@@ -5,7 +5,7 @@ import StageItem from '.';
 import { StageStatusEnum } from '../../../types';
 
 const meta: Meta<typeof StageItem> = {
-	title: 'PRJ_Marina/StageItem',
+	title: 'order_management/StageItem',
 	component: StageItem,
 	parameters: {
 		layout: 'fullscreen',
