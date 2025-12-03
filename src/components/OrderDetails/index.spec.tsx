@@ -58,8 +58,8 @@ function RenderOrderDetails(orderProps: RenderOrderDetailsProps) {
 
 	return (
 		<OrderDetails
-			selectedOrder={mockOrders[2]}
-			setOrders={setOrders}
+			order={mockOrders[2]}
+			setOrder={setOrders}
 			onCancel={jest.fn()}
 			onComplete={jest.fn()}
 			{...orderProps}
@@ -107,7 +107,7 @@ describe('OrderDetails Component', () => {
 	});
 	it('does not render timeline section if no stages are present', () => {
 		const orderWithoutStages = { ...mockOrders[0], stages: [] };
-		render(<RenderOrderDetails selectedOrder={orderWithoutStages} />);
+		render(<RenderOrderDetails order={orderWithoutStages} />);
 		expect(screen.queryByTestId('timeline-section')).not.toBeInTheDocument();
 		expect(screen.queryByTestId('order-timeline')).not.toBeInTheDocument();
 	});

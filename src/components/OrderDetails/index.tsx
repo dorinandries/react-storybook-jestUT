@@ -19,21 +19,21 @@ import { useState } from 'react';
 import { BASE_STAGE_ID } from '../../mock/mockOrders';
 
 export default function OrderDetails({
-	selectedOrder,
-	setOrders,
+	order,
+	setOrder,
 	onCancel,
 	onComplete,
 }: {
-	selectedOrder: Order;
-	setOrders: React.Dispatch<React.SetStateAction<Order[]>>;
+	order: Order;
+	setOrder: React.Dispatch<React.SetStateAction<Order[]>>;
 	onCancel: (id: string) => void;
 	onComplete: (id: string) => void;
 }) {
-	const latest = selectedOrder.stages[selectedOrder.stages.length - 1];
-	const created = formatDateTime(selectedOrder.createdAt);
+	const latest = order.stages[order.stages.length - 1];
+	const created = formatDateTime(order.createdAt);
 
-	const stagesCount = selectedOrder.stages.length;
-	const isTerminal = selectedOrder.orderStatus === OrderStatusEnum.Preparing;
+	const stagesCount = order.stages.length;
+	const isTerminal = order.orderStatus === OrderStatusEnum.Preparing;
 	const canAct = stagesCount >= 1 && stagesCount <= 4 && isTerminal;
 
 	const formFieldsStages = [
@@ -100,7 +100,7 @@ export default function OrderDetails({
 
 	const handleEditStageButton = (id: string) => {
 		setShowAddStage(true);
-		const stage = selectedOrder.stages.filter((s) => s.id === id)[0]!;
+		const stage = order.stages.filter((s) => s.id === id)[0]!;
 		console.log(id);
 		console.log(stage);
 		setStageForm({
@@ -129,19 +129,19 @@ export default function OrderDetails({
 				...rest,
 				date,
 				time,
-				id: `${BASE_STAGE_ID}${selectedOrder.stages.length + 1}`,
+				id: `${BASE_STAGE_ID}${order.stages.length + 1}`,
 			};
-			setOrders((prev) =>
+			setOrder((prev) =>
 				prev.map((o) =>
-					o.idOrder === selectedOrder.idOrder
+					o.idOrder === order.idOrder
 						? { ...o, stages: [...o.stages, newStage] }
 						: o
 				)
 			);
 		} else {
-			setOrders((prev) =>
+			setOrder((prev) =>
 				prev.map((o) =>
-					o.idOrder === selectedOrder.idOrder
+					o.idOrder === order.idOrder
 						? {
 								...o,
 								stages: o.stages.map((s) =>
@@ -158,14 +158,14 @@ export default function OrderDetails({
 	return (
 		<DetailsWrap data-testid={`order-details`}>
 			<DetailsHeader>
-				<h4>Order #{selectedOrder.idOrder}</h4>
+				<h4>Order #{order.idOrder}</h4>
 
 				<OrderTimelineButtons
 					canCancel={canAct}
 					canComplete={canAct}
 					canAddStageForm={canAct}
-					onCancel={() => onCancel(selectedOrder.idOrder)}
-					onComplete={() => onComplete(selectedOrder.idOrder)}
+					onCancel={() => onCancel(order.idOrder)}
+					onComplete={() => onComplete(order.idOrder)}
 					onAddStageForm={handleAddStageButton}
 				/>
 			</DetailsHeader>
@@ -188,7 +188,7 @@ export default function OrderDetails({
 						</StyledBox>
 
 						<Timeline
-							stages={selectedOrder.stages}
+							stages={order.stages}
 							data-testid='order-timeline'
 							handleEditStageButton={handleEditStageButton}
 						/>
@@ -200,11 +200,11 @@ export default function OrderDetails({
 					<StyledBox $status={OrderStatusEnum.Completed}>Customer</StyledBox>
 					<UserCard>
 						<Subtle>
-							<strong>{selectedOrder.user.name}</strong>
+							<strong>{order.user.name}</strong>
 						</Subtle>
-						<Subtle>{selectedOrder.user.email}</Subtle>
-						<Subtle>{selectedOrder.user.address}</Subtle>
-						<Subtle>{selectedOrder.user.phone}</Subtle>
+						<Subtle>{order.user.email}</Subtle>
+						<Subtle>{order.user.address}</Subtle>
+						<Subtle>{order.user.phone}</Subtle>
 					</UserCard>
 				</StagesContainer>
 			</Rows>

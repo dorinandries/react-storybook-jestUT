@@ -1,7 +1,8 @@
 // pages/Orders.tsx
 import React, { useMemo, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { Grid, Page } from '../../styles';
-import { getOrders } from '../../api/getOrders';
 import OrderDetails from '../../components/OrderDetails';
 import OrderCard from '../../components/OrderCard';
 import {
@@ -11,7 +12,7 @@ import {
 	type Order,
 } from '../../types';
 import { getDateTime } from '../../utilities';
-import { getFinalStage } from './helper';
+import { getOrders } from '../../api/getOrders';
 
 function Orders() {
 	const [orders, setOrders] = useState<Order[]>([]);
@@ -30,42 +31,14 @@ function Orders() {
 		};
 		fetchOrders();
 	}, []);
-
+	
 	const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
-	const selectedOrder = useMemo(
-		() => orders.find((o) => o.idOrder === selectedOrderId) ?? null,
-		[orders, selectedOrderId]
-	);
 
-	const appendTerminalStage = (id: string, orderStatus: OrderStatusEnum) => {
-		setOrders((prev) =>
-			prev.map((item: Order) => {
-				if (item.idOrder !== id) return item;
+	const navigate = useNavigate();
 
-				// // if already terminal or already at 5 stages, keep as is
-				// if (item.stages.length >= 5 || item.orderStatus === orderStatus)
-				// 	return item;
-
-				const finalStage = getFinalStage({...item, orderStatus});
-
-				const prevStages = item.stages.map((stage) => ({
-					...stage,
-					isLastElement: false,
-				}));
-
-				return {
-					...item,
-					stages: [...prevStages, finalStage],//.slice(0, 5),
-					orderStatus,
-				};
-			})
-		);
+	const handleOrderClick = (orderId: string) => {
+		navigate(`/order/${orderId}`);
 	};
-
-	const cancelOrder = (id: string) =>
-		appendTerminalStage(id, OrderStatusEnum.Canceled);
-	const completeOrder = (id: string) =>
-		appendTerminalStage(id, OrderStatusEnum.Completed);
 
 	return (
 		<Page>
@@ -79,8 +52,8 @@ function Orders() {
 							<OrderCard
 								order={o}
 								key={o.idOrder}
-								onOpen={() => setSelectedOrderId(o.idOrder)}
-								selected={selectedOrderId === o.idOrder}
+								onOpen={() => handleOrderClick(o.idOrder)}
+								// selected={selectedOrderId === o.idOrder}
 							/>
 						))
 					) : (
@@ -88,9 +61,8 @@ function Orders() {
 					)}
 				</Grid>
 			</section>
-
+			{/* 
 			<section data-testid='orders-details'>
-				{/* Details section below the grid */}
 				{selectedOrder && (
 					<OrderDetails
 						selectedOrder={selectedOrder}
@@ -99,7 +71,7 @@ function Orders() {
 						onComplete={completeOrder}
 					/>
 				)}
-			</section>
+			</section> */}
 		</Page>
 	);
 }
